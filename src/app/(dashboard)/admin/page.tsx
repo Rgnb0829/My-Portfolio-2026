@@ -697,6 +697,18 @@ export default function AdminDashboard() {
                             />
                         </div>
 
+                        {/* Status */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Status</label>
+                            <select
+                                value={formData.status}
+                                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-800 transition-colors appearance-none cursor-pointer">
+                                <option value="Draft">Draft</option>
+                                <option value="Live">Live</option>
+                            </select>
+                        </div>
+
                         {/* URLs Header */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
@@ -732,13 +744,39 @@ export default function AdminDashboard() {
                                 className="w-full px-4 py-2.5 mb-3 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-800 transition-colors"
                             />
 
-                            <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center bg-gray-50/50 hover:bg-gray-50 transition-colors cursor-pointer group">
-                                <div className="w-12 h-12 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                                    <UploadCloud size={20} className="text-gray-500" />
-                                </div>
-                                <p className="text-sm font-medium text-gray-900">Click to upload or drag & drop</p>
-                                <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG or GIF (max. 800x400px)</p>
-                            </div>
+                            <label className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center bg-gray-50/50 hover:bg-gray-50 transition-colors cursor-pointer group relative overflow-hidden">
+                                {formData.image && formData.image.startsWith("data:image") ? (
+                                    <div className="absolute inset-0 w-full h-full">
+                                        <img src={formData.image} alt="Preview" className="w-full h-full object-cover opacity-50" />
+                                        <div className="absolute inset-0 flex items-center justify-center">
+                                            <span className="bg-black/80 text-white px-3 py-1.5 rounded-lg text-xs font-semibold">Change Image</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div className="w-12 h-12 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                            <UploadCloud size={20} className="text-gray-500" />
+                                        </div>
+                                        <p className="text-sm font-medium text-gray-900">Click to upload image</p>
+                                        <p className="text-xs text-gray-500 mt-1">SVG, PNG, JPG (Auto-converts to Base64)</p>
+                                    </>
+                                )}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onloadend = () => {
+                                                setFormData({ ...formData, image: reader.result as string });
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }}
+                                />
+                            </label>
                         </div>
 
                     </form>
