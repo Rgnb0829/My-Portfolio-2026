@@ -1,63 +1,33 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { supabase } from "@/utils/supabase";
 
-const dataFilePath = path.join(process.cwd(), "src", "data", "settings.json");
-
-// Helper to read data
-function readData() {
-    try {
-        if (!fs.existsSync(dataFilePath)) {
-            const defaultSettings = {
-                name: "Rakha Wismaya",
-                role: "UI/UX Designer & Developer",
-                bio: "I craft digital experiences that merge clean aesthetics with robust functionality.",
-                email: "hello@example.com",
-                github: "https://github.com/",
-                linkedin: "https://linkedin.com/",
-                instagram: "https://instagram.com/"
-            };
-            fs.writeFileSync(dataFilePath, JSON.stringify(defaultSettings, null, 2), "utf-8");
-            return defaultSettings;
-        }
-        const fileContent = fs.readFileSync(dataFilePath, "utf-8");
-        return JSON.parse(fileContent);
-    } catch (error) {
-        console.error("Error reading settings data:", error);
-        return {};
-    }
-}
-
-// Helper to write data
-function writeData(data: any) {
-    try {
-        const dirPath = path.dirname(dataFilePath);
-        if (!fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true });
-        }
-        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), "utf-8");
-    } catch (error) {
-        console.error("Error writing settings data:", error);
-    }
-}
-
-// GET settings
 export async function GET() {
-    const data = readData();
+    const { data, error } = await supabase.from("settings").select("*").eq("id", 1).single();
+    if (error) {
+        // Fallback default if not found
+        return NextResponse.json({
+            name: "Rakha Commander",
+            role: "Frontend Developer",
+            bio: "Building interactive digital experiences.",
+            email: "creative.rakhawn@gmail.com",
+            github: "https://github.com/Rgnb0829",
+            linkedin: "",
+            instagram: ""
+        });
+    }
     return NextResponse.json(data);
 }
 
-// PUT update settings
 export async function PUT(request: Request) {
     try {
         const body = await request.json();
 
-        let data = readData();
-        data = { ...data, ...body };
-        writeData(data);
+        // Upsert ensures we update row id 1, or create it if not found
+        const { data, error } = await supabase.from("settings").upsert({ id: 1, ...body }).select().single();
+        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-        return NextResponse.json({ message: "Settings updated successfully", settings: data });
+        return NextResponse.json({ success: true, settings: data });
     } catch (error) {
-        return NextResponse.json({ error: "Failed to update settings" }, { status: 500 });
+        return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
     }
 }
