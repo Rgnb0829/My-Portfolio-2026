@@ -1,0 +1,24 @@
+[
+  {
+    "id": 2,
+    "title": "Entitas Bebas Store",
+    "category": "E-Commerce",
+    "status": "Live",
+    "image": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=100",
+    "description": "A fully featured e-commerce storefront with a custom checkout flow.",
+    "techStack": "React, TypeScript, Zustand",
+    "liveUrl": "https://entitasbebas.com",
+    "repoUrl": "https://github.com/flyychmoreeee/entitas-store"
+  },
+  {
+    "id": 3,
+    "title": "Dark Art Commission Vol. 1",
+    "category": "Illustration",
+    "status": "Draft",
+    "image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=100",
+    "description": "A collection of personal dark sci-fi and cyberpunk illustrations.",
+    "techStack": "Procreate, Photoshop",
+    "liveUrl": "",
+    "repoUrl": ""
+  }
+]
