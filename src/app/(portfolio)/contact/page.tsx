@@ -155,6 +155,13 @@ export default function ContactPage() {
                                     LinkedIn <ArrowUpRight size={16} />
                                 </Link>
                                 <Link
+                                    href="https://www.behance.net/creativerakhawn"
+                                    target="_blank"
+                                    className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                >
+                                    Behance <ArrowUpRight size={16} />
+                                </Link>
+                                <Link
                                     href="#"
                                     target="_blank"
                                     className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"

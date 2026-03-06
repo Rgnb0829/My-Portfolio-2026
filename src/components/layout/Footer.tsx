@@ -47,6 +47,9 @@ export default function Footer() {
                         <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
                             LinkedIn <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
+                        <Link href="https://www.behance.net/creativerakhawn" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                            Behance <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </Link>
                         <Link href="#" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
                             WhatsApp <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>

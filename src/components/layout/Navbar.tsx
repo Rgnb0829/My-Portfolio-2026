@@ -112,6 +112,7 @@ export default function Navbar() {
                         <div className="absolute bottom-12 flex gap-6 text-gray-400">
                             <Link href="https://github.com/Rgnb0829" target="_blank" className="hover:text-white">Github</Link>
                             <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="hover:text-white">LinkedIn</Link>
+                            <Link href="https://www.behance.net/creativerakhawn" target="_blank" className="hover:text-white">Behance</Link>
                             <Link href="#" className="hover:text-white">Email</Link>
                         </div>
                     </motion.div>
