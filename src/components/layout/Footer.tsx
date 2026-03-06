@@ -22,7 +22,7 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-4 mt-2">
                         <Link
-                            href="mailto:creative.rakhawn@gmail.com"
+                            href="#"
                             className="px-4 py-2 rounded-full border border-white/10 hover:bg-white hover:text-black transition-colors text-sm font-medium"
                         >
                             Email Me
@@ -41,13 +41,13 @@ export default function Footer() {
 
                     <div className="flex flex-col gap-4">
                         <h4 className="text-white font-semibold mb-2">Socials</h4>
-                        <Link href="https://github.com/flyychmoreeee" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                        <Link href="https://github.com/Rgnb0829" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
                             Github <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
-                        <Link href="https://www.linkedin.com/in/rakha-zildan-19588b2a4/" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                        <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
                             LinkedIn <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
-                        <Link href="https://wa.me/62895421845451" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                        <Link href="#" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
                             WhatsApp <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                         </Link>
                     </div>

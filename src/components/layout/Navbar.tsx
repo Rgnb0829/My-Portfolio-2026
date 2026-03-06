@@ -110,9 +110,9 @@ export default function Navbar() {
                         </nav>
 
                         <div className="absolute bottom-12 flex gap-6 text-gray-400">
-                            <Link href="https://github.com/flyychmoreeee" target="_blank" className="hover:text-white">Github</Link>
-                            <Link href="https://www.linkedin.com/in/rakha-zildan-19588b2a4/" target="_blank" className="hover:text-white">LinkedIn</Link>
-                            <Link href="mailto:mrakhazildan@gmail.com" className="hover:text-white">Email</Link>
+                            <Link href="https://github.com/Rgnb0829" target="_blank" className="hover:text-white">Github</Link>
+                            <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="hover:text-white">LinkedIn</Link>
+                            <Link href="#" className="hover:text-white">Email</Link>
                         </div>
                     </motion.div>
                 )}

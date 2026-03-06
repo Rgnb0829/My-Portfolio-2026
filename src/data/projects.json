@@ -7,8 +7,8 @@
     "image": "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80&w=100",
     "description": "A fully featured e-commerce storefront with a custom checkout flow.",
     "techStack": "React, TypeScript, Zustand",
-    "liveUrl": "https://entitasbebas.com",
-    "repoUrl": "https://github.com/flyychmoreeee/entitas-store"
+    "liveUrl": "",
+    "repoUrl": ""
   },
   {
     "id": 3,

@@ -120,8 +120,8 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-gray-400 text-sm font-medium mb-1">Email</h3>
-                                    <a href="mailto:mrakhazildan@gmail.com" className="text-xl font-medium hover:text-gray-300 transition-colors">
-                                        creative.rakhawn@gmail.com
+                                    <a href="#" className="text-xl font-medium hover:text-gray-300 transition-colors">
+                                        your.email@example.com
                                     </a>
                                 </div>
                             </div>
@@ -141,21 +141,21 @@ export default function ContactPage() {
                             <h3 className="text-gray-400 text-sm font-medium mb-4">Social Profiles</h3>
                             <div className="flex flex-wrap gap-4">
                                 <Link
-                                    href="https://github.com/flyychmoreeee"
+                                    href="https://github.com/Rgnb0829"
                                     target="_blank"
                                     className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                                 >
                                     Github <ArrowUpRight size={16} />
                                 </Link>
                                 <Link
-                                    href="https://www.linkedin.com/in/rakha-zildan-19588b2a4/"
+                                    href="https://www.linkedin.com/in/rakha-w-4827a324a/"
                                     target="_blank"
                                     className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                                 >
                                     LinkedIn <ArrowUpRight size={16} />
                                 </Link>
                                 <Link
-                                    href="https://wa.me/62895421845451"
+                                    href="#"
                                     target="_blank"
                                     className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
                                 >
