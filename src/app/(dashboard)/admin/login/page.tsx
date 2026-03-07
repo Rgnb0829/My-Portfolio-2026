@@ -1,98 +1,104 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Lock } from "lucide-react";
+import { Lock, Loader2 } from "lucide-react";
 
 export default function AdminLogin() {
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("salah cok");
+    const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    // Check if already authenticated
-    useEffect(() => {
-        const isAuthenticated = localStorage.getItem("adminAuth") === "true";
-        if (isAuthenticated) {
-            router.push("/admin");
-        }
-    }, [router]);
-
-    const handleLogin = (e: React.FormEvent) => {
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!password) {
+            setError("Password is required");
+            return;
+        }
+
         setIsLoading(true);
         setError("");
 
-        // Mock authentication (simulate slight network delay)
-        setTimeout(() => {
-            if (password === "admin123") {
-                localStorage.setItem("adminAuth", "true");
-                router.push("/admin");
+        try {
+            const res = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ password }),
+            });
+
+            if (res.ok) {
+                // Force a hard refresh to bypass client-side cache and
+                // let the middleware re-evaluate the new cookie
+                window.location.href = "/admin";
             } else {
-                setError("Salah cok.");
+                const data = await res.json();
+                setError(data.error || "Invalid password");
                 setIsLoading(false);
             }
-        }, 800);
+        } catch (err) {
+            setError("Something went wrong. Please try again.");
+            setIsLoading(false);
+        }
     };
 
     return (
-        <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-6 relative z-[999999]">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-                <div className="p-8 sm:p-12">
-                    <div className="flex justify-center mb-8">
-                        <div className="w-16 h-16 bg-black rounded-full flex items-center justify-center">
-                            <Lock size={28} className="text-white" />
-                        </div>
+        <div className="min-h-screen bg-[#FAFAFA] flex items-center justify-center p-4 selection:bg-black selection:text-white">
+            <div className="w-full max-w-md bg-white p-8 md:p-12 shadow-2xl border border-gray-100 rounded-2xl relative overflow-hidden">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-black"></div>
+                <div className="absolute -right-16 -top-16 w-32 h-32 bg-gray-50 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+
+                <div className="mb-10 relative">
+                    <div className="w-12 h-12 bg-black text-white rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-black/10">
+                        <Lock size={24} strokeWidth={2.5} />
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Access CMS</h1>
+                    <p className="text-gray-500 text-sm">Enter the master password to manage your portfolio content.</p>
+                </div>
+
+                <form onSubmit={handleLogin} className="space-y-6">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••••••"
+                            className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-800 transition-all font-mono tracking-widest placeholder:tracking-normal"
+                        />
+                        {error && (
+                            <p className="text-red-500 text-xs mt-2 font-medium bg-red-50 p-2 rounded-md border border-red-100/50 flex items-center gap-1.5">
+                                <span className="inline-block w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                {error}
+                            </p>
+                        )}
                     </div>
 
-                    <h1 className="text-2xl font-bold text-center text-gray-900 mb-2 tracking-tight">
-                        Admin Portal
-                    </h1>
-                    <p className="text-center text-gray-500 text-sm mb-8">
-                        Enter your secure password to access the CMS.
-                    </p>
+                    <button
+                        type="submit"
+                        disabled={isLoading}
+                        className="w-full bg-black hover:bg-gray-900 text-white font-medium py-3 rounded-xl shadow-lg shadow-black/10 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {isLoading ? (
+                            <>
+                                <Loader2 size={18} className="animate-spin" />
+                                Authenticating...
+                            </>
+                        ) : (
+                            "Unlock Dashboard"
+                        )}
+                    </button>
 
-                    <form onSubmit={handleLogin} className="flex flex-col gap-5">
-                        <div className="relative">
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter password"
-                                className={`w-full px-4 py-3.5 rounded-xl border ${error ? "border-red-300 focus:ring-red-100" : "border-gray-200 focus:ring-black/5"
-                                    } bg-white text-gray-900 text-sm focus:outline-none focus:ring-4 focus:border-gray-800 transition-all`}
-                                autoFocus
-                            />
-                            {error && (
-                                <p className="text-red-500 text-xs mt-2 pl-1 font-medium">{error}</p>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isLoading || !password}
-                            className="w-full bg-black hover:bg-gray-800 text-white font-medium py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed group mt-2"
-                        >
-                            {isLoading ? (
-                                <span className="flex items-center gap-2">
-                                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                    Authenticating...
-                                </span>
-                            ) : (
-                                <>
-                                    Access Dashboard
-                                    <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                                </>
-                            )}
-                        </button>
-                    </form>
-                </div>
-
-                <div className="bg-gray-50 px-8 py-4 border-t border-gray-100 text-center">
-                    <p className="text-xs text-gray-400">
-                        Go back to <a href="/" className="text-gray-600 hover:text-black hover:underline transition-colors font-medium">live site</a>
-                    </p>
-                </div>
+                    <button
+                        type="button"
+                        onClick={() => router.push('/')}
+                        className="w-full text-center text-sm text-gray-400 hover:text-gray-900 transition-colors mt-4"
+                    >
+                        Return to Home
+                    </button>
+                </form>
             </div>
         </div>
     );

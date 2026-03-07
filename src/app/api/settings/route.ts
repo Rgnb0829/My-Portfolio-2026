@@ -1,33 +1,30 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/utils/supabase";
+import fs from "fs/promises";
+import path from "path";
+
+const dataFilePath = path.join(process.cwd(), "src/data/settings.json");
 
 export async function GET() {
-    const { data, error } = await supabase.from("settings").select("*").eq("id", 1).single();
-    if (error) {
-        // Fallback default if not found
-        return NextResponse.json({
-            name: "Rakha Commander",
-            role: "Frontend Developer",
-            bio: "Building interactive digital experiences.",
-            email: "creative.rakhawn@gmail.com",
-            github: "https://github.com/Rgnb0829",
-            linkedin: "",
-            instagram: ""
-        });
+    try {
+        const fileContents = await fs.readFile(dataFilePath, "utf8");
+        const settings = JSON.parse(fileContents);
+        return NextResponse.json(settings);
+    } catch (error) {
+        return NextResponse.json({ error: "Failed to read settings data" }, { status: 500 });
     }
-    return NextResponse.json(data);
 }
 
 export async function PUT(request: Request) {
     try {
-        const body = await request.json();
+        const updatedSettings = await request.json();
+        const fileContents = await fs.readFile(dataFilePath, "utf8");
+        const currentSettings = JSON.parse(fileContents);
 
-        // Upsert ensures we update row id 1, or create it if not found
-        const { data, error } = await supabase.from("settings").upsert({ id: 1, ...body }).select().single();
-        if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+        const newSettings = { ...currentSettings, ...updatedSettings };
 
-        return NextResponse.json({ success: true, settings: data });
+        await fs.writeFile(dataFilePath, JSON.stringify(newSettings, null, 4), "utf8");
+        return NextResponse.json(newSettings);
     } catch (error) {
-        return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
+        return NextResponse.json({ error: "Failed to update settings data" }, { status: 500 });
     }
 }

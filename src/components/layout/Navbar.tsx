@@ -5,6 +5,9 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 const navLinks = [
     { name: "Home", path: "/" },
@@ -18,6 +21,7 @@ export default function Navbar() {
     const pathname = usePathname();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { data: settings } = useSWR("/api/settings", fetcher);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -34,7 +38,7 @@ export default function Navbar() {
 
     return (
         <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+            className={`fixed top-0 left-0 right-0 z-[100000] transition-all duration-300 ${isScrolled
                 ? "bg-black/70 backdrop-blur-lg border-b border-white/10 py-4 shadow-lg shadow-black/50"
                 : "bg-transparent py-6"
                 }`}
@@ -42,7 +46,7 @@ export default function Navbar() {
             <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
                 <Link
                     href="/"
-                    className="text-2xl font-black tracking-tighter text-white z-50 relative"
+                    className="text-2xl font-black tracking-tighter text-white z-[99999] relative"
                 >
                     RAKHA<span className="text-gray-500">.</span>
                 </Link>
@@ -72,7 +76,7 @@ export default function Navbar() {
                 </nav>
 
                 {/* Mobile Menu Button */}
-                <div className="md:hidden z-50">
+                <div className="md:hidden z-[99999] relative">
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                         className="text-white p-2 focus:outline-none"
@@ -91,7 +95,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl flex flex-col justify-center items-center h-screen w-screen"
+                        className="fixed inset-0 z-[99998] bg-black/95 backdrop-blur-xl flex flex-col justify-center items-center h-screen w-screen"
                     >
                         <nav className="flex flex-col items-center gap-8">
                             {navLinks.map((link) => {
@@ -109,11 +113,13 @@ export default function Navbar() {
                             })}
                         </nav>
 
-                        <div className="absolute bottom-12 flex gap-6 text-gray-400">
-                            <Link href="https://github.com/Rgnb0829" target="_blank" className="hover:text-white">Github</Link>
-                            <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="hover:text-white">LinkedIn</Link>
-                            <Link href="https://www.behance.net/creativerakhawn" target="_blank" className="hover:text-white">Behance</Link>
-                            <Link href="#" className="hover:text-white">Email</Link>
+                        <div className="absolute bottom-12 flex gap-4 text-gray-400 text-sm flex-wrap items-center justify-center px-4">
+                            {settings?.github && <Link href={settings.github} target="_blank" className="hover:text-white">Github</Link>}
+                            {settings?.linkedin && <Link href={settings.linkedin} target="_blank" className="hover:text-white">LinkedIn</Link>}
+                            {settings?.behance && <Link href={settings.behance} target="_blank" className="hover:text-white">Behance</Link>}
+                            {settings?.instagram && <Link href={settings.instagram} target="_blank" className="hover:text-white">Instagram</Link>}
+                            {settings?.whatsapp && <Link href={settings.whatsapp} target="_blank" className="hover:text-white">WhatsApp</Link>}
+                            {settings?.email && <Link href={`mailto:${settings.email}`} className="hover:text-white">Email</Link>}
                         </div>
                     </motion.div>
                 )}

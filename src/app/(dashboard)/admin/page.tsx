@@ -578,7 +578,17 @@ export default function AdminDashboard() {
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1.5">Short Bio</label>
-                                        <textarea rows={3} value={settingsData?.bio || ""} onChange={e => setSettingsData({ ...settingsData, bio: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm resize-none" />
+                                        <textarea rows={2} value={settingsData?.bio || ""} onChange={e => setSettingsData({ ...settingsData, bio: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm resize-none" />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Full About Me Text</label>
+                                        <textarea rows={5} value={settingsData?.aboutText || ""} onChange={e => setSettingsData({ ...settingsData, aboutText: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm resize-y" />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1.5">Skills (comma-separated)</label>
+                                        <input type="text" value={settingsData?.skills ? settingsData.skills.join(", ") : ""} onChange={e => setSettingsData({ ...settingsData, skills: e.target.value.split(",").map((s: string) => s.trim()) })} className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm" />
                                     </div>
 
                                     <hr className="border-gray-100 my-2" />
@@ -597,9 +607,86 @@ export default function AdminDashboard() {
                                             <span className="w-24 text-sm text-gray-500">Instagram</span>
                                             <input type="url" value={settingsData?.instagram || ""} onChange={e => setSettingsData({ ...settingsData, instagram: e.target.value })} placeholder="https://..." className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm" />
                                         </div>
+                                        <div className="flex items-center gap-3">
+                                            <span className="w-24 text-sm text-gray-500">WhatsApp</span>
+                                            <input type="url" value={settingsData?.whatsapp || ""} onChange={e => setSettingsData({ ...settingsData, whatsapp: e.target.value })} placeholder="https://wa.me/..." className="flex-1 px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-black/5 outline-none text-sm" />
+                                        </div>
                                     </div>
 
-                                    <div className="mt-4 flex justify-end">
+                                    <hr className="border-gray-100 my-6" />
+
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h3 className="text-sm font-semibold text-gray-900">Work Experience</h3>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const newExps = [...(settingsData?.experiences || []), { role: "", company: "", period: "", description: "" }];
+                                                setSettingsData({ ...settingsData, experiences: newExps });
+                                            }}
+                                            className="text-xs font-medium text-black bg-gray-100 hover:bg-gray-200 px-3 py-1.5 rounded-md transition-colors flex items-center gap-1"
+                                        >
+                                            <Plus size={14} /> Add Experience
+                                        </button>
+                                    </div>
+
+                                    <div className="flex flex-col gap-4">
+                                        {settingsData?.experiences?.map((exp: any, index: number) => (
+                                            <div key={index} className="flex flex-col gap-3 p-4 border border-gray-200 rounded-lg bg-gray-50/50 relative group">
+                                                <button
+                                                    type="button"
+                                                    onClick={() => {
+                                                        const newExps = settingsData.experiences.filter((_: any, i: number) => i !== index);
+                                                        setSettingsData({ ...settingsData, experiences: newExps });
+                                                    }}
+                                                    className="absolute top-3 right-3 text-gray-400 hover:text-red-500 transition-colors"
+                                                >
+                                                    <Trash2 size={16} />
+                                                </button>
+
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pr-6">
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-gray-500 mb-1">Role / Job Title</label>
+                                                        <input type="text" value={exp.role || ""} onChange={e => {
+                                                            const newExps = [...settingsData.experiences];
+                                                            newExps[index].role = e.target.value;
+                                                            setSettingsData({ ...settingsData, experiences: newExps });
+                                                        }} className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-black outline-none text-sm bg-white" placeholder="e.g. Frontend Developer" />
+                                                    </div>
+                                                    <div>
+                                                        <label className="block text-xs font-medium text-gray-500 mb-1">Company</label>
+                                                        <input type="text" value={exp.company || ""} onChange={e => {
+                                                            const newExps = [...settingsData.experiences];
+                                                            newExps[index].company = e.target.value;
+                                                            setSettingsData({ ...settingsData, experiences: newExps });
+                                                        }} className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-black outline-none text-sm bg-white" placeholder="e.g. Acme Corp" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Period</label>
+                                                    <input type="text" value={exp.period || ""} onChange={e => {
+                                                        const newExps = [...settingsData.experiences];
+                                                        newExps[index].period = e.target.value;
+                                                        setSettingsData({ ...settingsData, experiences: newExps });
+                                                    }} className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-black outline-none text-sm bg-white" placeholder="e.g. 2022 - Present" />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-xs font-medium text-gray-500 mb-1">Description</label>
+                                                    <textarea rows={2} value={exp.description || ""} onChange={e => {
+                                                        const newExps = [...settingsData.experiences];
+                                                        newExps[index].description = e.target.value;
+                                                        setSettingsData({ ...settingsData, experiences: newExps });
+                                                    }} className="w-full px-3 py-2 rounded-md border border-gray-300 focus:ring-1 focus:ring-black outline-none text-sm bg-white resize-none" placeholder="Describe your responsibilities..." />
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {(!settingsData?.experiences || settingsData.experiences.length === 0) && (
+                                            <div className="text-center p-6 border border-dashed border-gray-200 rounded-lg text-gray-500 text-sm">
+                                                No experience added yet.
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="mt-8 flex justify-end">
                                         <button disabled={isSaving} type="submit" className="bg-black text-white px-6 py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50">
                                             {isSaving ? "Saving..." : "Save Changes"}
                                         </button>
@@ -712,12 +799,14 @@ export default function AdminDashboard() {
                         {/* URLs Header */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Live URL</label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                                    {activeTab === "Artworks" ? "Live URL / Behance Link" : "Live URL"}
+                                </label>
                                 <input
                                     type="url"
                                     value={formData.liveUrl}
                                     onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                                    placeholder="https://..."
+                                    placeholder={activeTab === "Artworks" ? "https://behance.net/..." : "https://..."}
                                     className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-800 transition-colors"
                                 />
                             </div>

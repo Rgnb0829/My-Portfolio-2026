@@ -2,9 +2,23 @@
     "name": "Rakha Wismaya",
     "role": "UI/UX Designer & Developer",
     "bio": "I craft digital experiences that merge clean aesthetics with robust functionality.",
+    "aboutText": "Hello! I am a passionate creator building interactive and minimalist web experiences. With a background in UI/UX design and frontend development, I strive to build applications that look beautiful and perform seamlessly.",
+    "skills": [
+        "Vue",
+        "React/Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Framer Motion",
+        "UI/UX Design",
+        "Figma",
+        "Digital Art",
+        ""
+    ],
+    "profileImage": "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=800",
     "email": "hello@example.com",
     "github": "https://github.com/Rgnb0829",
     "linkedin": "https://www.linkedin.com/in/rakha-w-4827a324a/",
     "behance": "https://www.behance.net/creativerakhawn",
-    "instagram": "https://instagram.com/"
+    "instagram": "https://instagram.com/_engky4u/",
+    "experiences": []
 }

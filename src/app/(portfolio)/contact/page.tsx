@@ -4,10 +4,14 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
 import { useState } from "react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function ContactPage() {
     const [formData, setFormData] = useState({ name: "", email: "", message: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const { data: settings } = useSWR("/api/settings", fetcher);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -120,8 +124,8 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h3 className="text-gray-400 text-sm font-medium mb-1">Email</h3>
-                                    <a href="#" className="text-xl font-medium hover:text-gray-300 transition-colors">
-                                        your.email@example.com
+                                    <a href={settings?.email ? `mailto:${settings.email}` : "#"} className="text-xl font-medium hover:text-gray-300 transition-colors">
+                                        {settings?.email || "your.email@example.com"}
                                     </a>
                                 </div>
                             </div>
@@ -140,34 +144,51 @@ export default function ContactPage() {
                         <div>
                             <h3 className="text-gray-400 text-sm font-medium mb-4">Social Profiles</h3>
                             <div className="flex flex-wrap gap-4">
-                                <Link
-                                    href="https://github.com/Rgnb0829"
-                                    target="_blank"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
-                                >
-                                    Github <ArrowUpRight size={16} />
-                                </Link>
-                                <Link
-                                    href="https://www.linkedin.com/in/rakha-w-4827a324a/"
-                                    target="_blank"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
-                                >
-                                    LinkedIn <ArrowUpRight size={16} />
-                                </Link>
-                                <Link
-                                    href="https://www.behance.net/creativerakhawn"
-                                    target="_blank"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
-                                >
-                                    Behance <ArrowUpRight size={16} />
-                                </Link>
-                                <Link
-                                    href="#"
-                                    target="_blank"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
-                                >
-                                    WhatsApp <ArrowUpRight size={16} />
-                                </Link>
+                                {settings?.github && (
+                                    <Link
+                                        href={settings.github}
+                                        target="_blank"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                    >
+                                        Github <ArrowUpRight size={16} />
+                                    </Link>
+                                )}
+                                {settings?.linkedin && (
+                                    <Link
+                                        href={settings.linkedin}
+                                        target="_blank"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                    >
+                                        LinkedIn <ArrowUpRight size={16} />
+                                    </Link>
+                                )}
+                                {settings?.behance && (
+                                    <Link
+                                        href={settings.behance}
+                                        target="_blank"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                    >
+                                        Behance <ArrowUpRight size={16} />
+                                    </Link>
+                                )}
+                                {settings?.instagram && (
+                                    <Link
+                                        href={settings.instagram}
+                                        target="_blank"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                    >
+                                        Instagram <ArrowUpRight size={16} />
+                                    </Link>
+                                )}
+                                {settings?.whatsapp && (
+                                    <Link
+                                        href={settings.whatsapp}
+                                        target="_blank"
+                                        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition-colors"
+                                    >
+                                        WhatsApp <ArrowUpRight size={16} />
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     </motion.div>

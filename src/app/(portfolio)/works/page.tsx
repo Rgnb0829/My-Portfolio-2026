@@ -19,6 +19,7 @@ export default function BrutalistWorksPage() {
 
     // Fetch live projects from CMS via our local JSON API
     const { data: projectsData, error } = useSWR("/api/projects", fetcher);
+    const { data: behanceData } = useSWR("/api/behance", fetcher);
 
     // Preloader Sequence Logic
     useEffect(() => {
@@ -44,12 +45,13 @@ export default function BrutalistWorksPage() {
         }
     }, [greetingIndex]);
 
+    // Combine CMS projects and auto-fetched Behance projects
+    const allProjects = [...(projectsData || []), ...(behanceData && Array.isArray(behanceData) ? behanceData : [])];
+
     // Filtering Logic (Filter only live projects if data exists)
-    const filteredProjects = projectsData
-        ? projectsData
-            .filter((p: any) => p.status === "Live")
-            .filter((p: any) => activeFilter === "All" || p.category === activeFilter)
-        : [];
+    const filteredProjects = allProjects
+        .filter((p: any) => p.status === "Live")
+        .filter((p: any) => activeFilter === "All" || p.category === activeFilter);
 
     return (
         // Outer container overriding any global dark modes, forcing a strict minimal bright theme
@@ -280,7 +282,7 @@ export default function BrutalistWorksPage() {
                                             rel="noopener noreferrer"
                                             className="bg-black hover:bg-gray-800 text-white px-8 py-4 text-sm font-bold uppercase tracking-wider transition-colors inline-flex border flex-1 items-center justify-center gap-2 whitespace-nowrap"
                                         >
-                                            Visit Live Project
+                                            {selectedProject.liveUrl.includes("behance.net") ? "View on Behance" : "Visit Live Project"}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 7h10v10" /><path d="M7 17 17 7" /></svg>
                                         </a>
                                     ) : (

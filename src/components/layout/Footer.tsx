@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import useSWR from "swr";
+
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const { data: settings } = useSWR("/api/settings", fetcher);
 
     return (
         <footer className="w-full bg-[#0a0a0a] border-t border-white/5 py-12 px-6 md:px-12 mt-32 relative overflow-hidden">
@@ -22,7 +26,7 @@ export default function Footer() {
                     </p>
                     <div className="flex gap-4 mt-2">
                         <Link
-                            href="#"
+                            href={settings?.email ? `mailto:${settings.email}` : "#"}
                             className="px-4 py-2 rounded-full border border-white/10 hover:bg-white hover:text-black transition-colors text-sm font-medium"
                         >
                             Email Me
@@ -41,18 +45,31 @@ export default function Footer() {
 
                     <div className="flex flex-col gap-4">
                         <h4 className="text-white font-semibold mb-2">Socials</h4>
-                        <Link href="https://github.com/Rgnb0829" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
-                            Github <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <Link href="https://www.linkedin.com/in/rakha-w-4827a324a/" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
-                            LinkedIn <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <Link href="https://www.behance.net/creativerakhawn" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
-                            Behance <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
-                        <Link href="#" target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
-                            WhatsApp <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                        </Link>
+                        {settings?.github && (
+                            <Link href={settings.github} target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                                Github <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        )}
+                        {settings?.linkedin && (
+                            <Link href={settings.linkedin} target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                                LinkedIn <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        )}
+                        {settings?.behance && (
+                            <Link href={settings.behance} target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                                Behance <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        )}
+                        {settings?.instagram && (
+                            <Link href={settings.instagram} target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                                Instagram <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        )}
+                        {settings?.whatsapp && (
+                            <Link href={settings.whatsapp} target="_blank" className="text-gray-400 hover:text-white transition-colors text-sm flex items-center gap-1 group w-fit">
+                                WhatsApp <ArrowUpRight size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
