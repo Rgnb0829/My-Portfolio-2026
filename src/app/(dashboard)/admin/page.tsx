@@ -212,7 +212,6 @@ export default function AdminDashboard() {
                 <nav className="flex-1 p-4 flex flex-col gap-1">
                     <NavItem icon={<LayoutDashboard size={20} />} label="Overview" active={activeTab === "Overview"} onClick={() => { setActiveTab("Overview"); setIsMobileMenuOpen(false); }} />
                     <NavItem icon={<FolderKanban size={20} />} label="Projects" active={activeTab === "Projects"} onClick={() => { setActiveTab("Projects"); setIsMobileMenuOpen(false); }} />
-                    <NavItem icon={<FileImage size={20} />} label="Artworks" active={activeTab === "Artworks"} onClick={() => { setActiveTab("Artworks"); setIsMobileMenuOpen(false); }} />
                     <NavItem icon={<MessageSquare size={20} />} label="Messages" active={activeTab === "Messages"} onClick={() => { setActiveTab("Messages"); setIsMobileMenuOpen(false); }} />
                     <NavItem icon={<Settings size={20} />} label="Settings" active={activeTab === "Settings"} onClick={() => { setActiveTab("Settings"); setIsMobileMenuOpen(false); }} />
                 </nav>
@@ -291,16 +290,7 @@ export default function AdminDashboard() {
                                     <p className="text-3xl font-bold text-gray-900">{projects?.length || 0}</p>
                                 </div>
 
-                                {/* Live Artworks Card */}
-                                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
-                                            <FileImage size={20} className="text-emerald-600" />
-                                        </div>
-                                        <h3 className="font-medium text-gray-600 text-sm">Gallery Artworks</h3>
-                                    </div>
-                                    <p className="text-3xl font-bold text-gray-900">{artworks?.length || 0}</p>
-                                </div>
+
 
                                 {/* Unread Messages Card */}
                                 <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -331,20 +321,6 @@ export default function AdminDashboard() {
                                     </div>
                                 </button>
 
-                                <button
-                                    onClick={() => { setActiveTab("Artworks"); handleAddNewRecord(); }}
-                                    className="flex items-center justify-between p-5 bg-white border border-gray-200 rounded-xl hover:border-black hover:shadow-sm transition-all text-left group"
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-12 h-12 bg-gray-50 rounded-full flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors">
-                                            <FileImage size={20} />
-                                        </div>
-                                        <div>
-                                            <p className="font-bold text-gray-900">Upload Artwork</p>
-                                            <p className="text-sm text-gray-500">Add a new illustration to the gallery.</p>
-                                        </div>
-                                    </div>
-                                </button>
                             </div>
                         </div>
                     ) : activeTab === "Projects" ? (
@@ -418,77 +394,6 @@ export default function AdminDashboard() {
                                                 </td>
                                             </tr>
                                         )) : null}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </>
-                    ) : activeTab === "Artworks" ? (
-                        <>
-                            {/* Header Action */}
-                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                                <div>
-                                    <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Artworks Gallery</h2>
-                                    <p className="text-sm text-gray-500 mt-1">Manage illustration and creative pieces.</p>
-                                </div>
-                                <button
-                                    onClick={handleAddNewRecord}
-                                    className="bg-black hover:bg-gray-800 text-white px-5 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 transition-colors active:scale-95"
-                                >
-                                    <Plus size={18} />
-                                    Add New Artwork
-                                </button>
-                            </div>
-
-                            {/* Data Table / List for Artworks */}
-                            <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-x-auto">
-                                <table className="w-full text-left border-collapse">
-                                    <thead>
-                                        <tr className="border-b border-gray-100 uppercase text-xs font-semibold text-gray-500 tracking-wider">
-                                            <th className="px-6 py-4">Artwork</th>
-                                            <th className="px-6 py-4 hidden sm:table-cell">Category</th>
-                                            <th className="px-6 py-4">Status</th>
-                                            <th className="px-6 py-4 text-right">Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100">
-                                        {artworks?.map((item: any) => (
-                                            <tr key={item.id} className="hover:bg-gray-50 transition-colors group">
-                                                <td className="px-6 py-4">
-                                                    <div className="flex items-center gap-4 max-w-[200px] sm:max-w-none">
-                                                        <img
-                                                            src={item.image}
-                                                            alt={item.title}
-                                                            className="w-12 h-12 rounded-lg object-cover border border-gray-100 shadow-sm shrink-0"
-                                                        />
-                                                        <div className="truncate">
-                                                            <p className="font-bold text-sm text-gray-900 truncate">{item.title}</p>
-                                                            <span className="sm:hidden text-xs text-gray-500 mt-0.5 inline-block">{item.category}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 hidden sm:table-cell">
-                                                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                                                        {item.category}
-                                                    </span>
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className={`w-2 h-2 rounded-full ${item.status === "Live" ? "bg-green-500" : "bg-gray-400"}`}></div>
-                                                        <span className="text-sm font-medium text-gray-700">{item.status}</span>
-                                                    </div>
-                                                </td>
-                                                <td className="px-6 py-4 text-right">
-                                                    <div className="flex justify-end gap-3 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <button onClick={() => handleEditRecord(item)} className="text-gray-400 hover:text-black transition-colors" title="Edit">
-                                                            <Edit2 size={18} />
-                                                        </button>
-                                                        <button onClick={() => handleDeleteRecord(item.id)} className="text-gray-400 hover:text-red-600 transition-colors" title="Delete">
-                                                            <Trash2 size={18} />
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -799,14 +704,12 @@ export default function AdminDashboard() {
                         {/* URLs Header */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    {activeTab === "Artworks" ? "Live URL / Behance Link" : "Live URL"}
-                                </label>
+                                <label className="block text-sm font-medium text-gray-700 mb-1.5">Live URL</label>
                                 <input
                                     type="url"
                                     value={formData.liveUrl}
                                     onChange={(e) => setFormData({ ...formData, liveUrl: e.target.value })}
-                                    placeholder={activeTab === "Artworks" ? "https://behance.net/..." : "https://..."}
+                                    placeholder="https://..."
                                     className="w-full px-4 py-2.5 rounded-lg border border-gray-200 bg-white text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-800 transition-colors"
                                 />
                             </div>

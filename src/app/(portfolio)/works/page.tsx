@@ -17,8 +17,7 @@ export default function BrutalistWorksPage() {
     const [activeFilter, setActiveFilter] = useState("All");
     const [selectedProject, setSelectedProject] = useState<any>(null);
 
-    // Fetch live projects from CMS via our local JSON API
-    const { data: projectsData, error } = useSWR("/api/projects", fetcher);
+    const { data: projectsData } = useSWR("/api/projects", fetcher);
     const { data: behanceData } = useSWR("/api/behance", fetcher);
 
     // Preloader Sequence Logic
