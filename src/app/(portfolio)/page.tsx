@@ -32,11 +32,10 @@ export default function Home() {
 
             <Link
               href="/works"
-              className="group flex flex-col justify-center items-center w-32 h-32 md:w-40 md:h-40 shrink-0 rounded-full border border-white/20 hover:border-white transition-colors duration-300 relative overflow-hidden bg-white/5 backdrop-blur-md"
+              className="group flex items-center gap-6 shrink-0 transition-opacity hover:opacity-80 mt-8 md:mt-0"
             >
-              <span className="text-sm font-bold tracking-wider uppercase z-10">See Works</span>
-              <ArrowUpRight size={24} className="mt-2 group-hover:scale-110 transition-transform z-10" />
-              <div className="absolute inset-0 bg-white scale-0 group-hover:scale-100 rounded-full transition-transform duration-500 ease-out origin-center opacity-0 group-hover:opacity-10" />
+              <span className="text-lg md:text-2xl font-bold tracking-widest uppercase text-white/50 group-hover:text-white transition-colors duration-300">See Works</span>
+              <ArrowUpRight size={80} strokeWidth={1} className="text-white group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform duration-500" />
             </Link>
           </motion.div>
         </div>
